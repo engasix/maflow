@@ -71,6 +71,80 @@ Single platform: {Web App / Mobile App / API / etc.}
 
 ---
 
+## Architecture
+
+### Platform Breakdown
+
+{Include for multi-platform projects}
+
+```markdown
+┌─────────────────────────────────────────────────┐
+│              System Architecture                │
+├─────────────────────────────────────────────────┤
+│                                                 │
+│  ┌─────────────┐      ┌─────────────┐          │
+│  │  Client A   │      │  Client B   │          │
+│  │  (Mobile)   │      │   (Web)     │          │
+│  └──────┬──────┘      └──────┬──────┘          │
+│         │                    │                  │
+│         └────────┬───────────┘                  │
+│                  ▼                              │
+│         ┌─────────────┐                         │
+│         │  Backend    │                         │
+│         │    API      │                         │
+│         └──────┬──────┘                         │
+│                │                                │
+│         ┌──────┴──────┐                         │
+│         ▼             ▼                         │
+│  ┌─────────────┐ ┌─────────────┐               │
+│  │   Admin     │ │  Database   │               │
+│  │ Dashboard   │ │  + Cache    │               │
+│  └─────────────┘ └─────────────┘               │
+│                                                 │
+└─────────────────────────────────────────────────┘
+```
+
+### Architecture Decisions
+
+| Area | Decision | Rationale |
+|------|----------|-----------|
+
+| API Style | {REST / GraphQL} | {Why this choice} |
+| Authentication | {JWT / OAuth} | {Why this choice} |
+| Database | {PostgreSQL / MongoDB} | {Why this choice} |
+| Cache | {Redis / None} | {Why this choice} |
+| Real-time | {WebSocket / Polling / None} | {Why this choice} |
+
+### Technical Risks
+
+| Risk | Impact | Likelihood | Mitigation |
+|------|--------|------------|------------|
+
+| {Risk 1} | High/Med/Low | High/Med/Low | {Mitigation} |
+| {Risk 2} | High/Med/Low | High/Med/Low | {Mitigation} |
+
+---
+
+## API Structure
+
+| Category | Base Path | Description |
+|----------|-----------|-------------|
+
+| Auth | `/api/auth/*` | Authentication endpoints |
+| Users | `/api/users/*` | User management |
+| {Resource} | `/api/{resource}/*` | {Description} |
+
+---
+
+## Data Models
+
+| Entity | Description | Key Fields |
+|--------|-------------|------------|
+| User | System users | id, email, password, role |
+| {Entity} | {Description} | {key fields} |
+
+---
+
 ## Notes
 
 {Any additional notes, constraints, or preferences mentioned by the developer}
@@ -84,15 +158,22 @@ Single platform: {Web App / Mobile App / API / etc.}
 
 - Remove "Platforms" section or simplify to one line
 - Features don't need category grouping
+- Simpler architecture diagram (or remove)
 
 **Multi-platform Projects:**
 
 - List all platforms clearly
 - Group features by platform/user type
+- Include full architecture diagram
 - Tech stack may vary per platform
 
 **No Third-party Integrations:**
 
 - Remove that section entirely
+
+**Simple Projects:**
+
+- Architecture section can be minimal
+- Risk table can be omitted if truly low-risk
 
 Keep the document concise and focused on what's needed for development.

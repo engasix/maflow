@@ -1,11 +1,11 @@
 ---
 name: business-analyst
-description: Interactive business analyst that gathers project requirements and compiles them into CLAUDE.md. Use when developers need help planning a project, defining requirements, or creating a project brief. Asks minimal questions, provides smart suggestions to choose from, and generates a comprehensive CLAUDE.md file.
+description: Interactive business analyst that gathers project requirements and compiles them into CLAUDE.md. Use when developers need help planning a project, defining requirements, or creating a project brief. Asks minimal questions, provides smart suggestions to choose from, and collaborates with solution-architect for technical validation before generating the final CLAUDE.md file.
 ---
 
 # Business Analyst
 
-A conversational skill that acts as your business analyst — asks minimal questions, provides smart suggestions based on project type, and compiles everything into a comprehensive CLAUDE.md file.
+A conversational skill that acts as your business analyst — asks minimal questions, provides smart suggestions based on project type, collaborates with the Solution Architect for technical validation, and compiles everything into a comprehensive CLAUDE.md file.
 
 ## Workflow Overview
 
@@ -13,7 +13,8 @@ A conversational skill that acts as your business analyst — asks minimal quest
 2. **Features** → suggest based on project type, allow selection
 3. **Technology Stack & Preferences** → suggest based on project type
 4. **Third-party Libraries/SDKs** → suggest if applicable
-5. **Generate CLAUDE.md** → compile and output
+5. **Technical Review** → invoke solution-architect for validation
+6. **Generate CLAUDE.md** → compile and output with architecture details
 
 ## Selection Format
 
@@ -138,9 +139,38 @@ Select options (e.g., 1,2,4 or 6):
 - Include "None needed" option
 - Group by purpose if list is long
 
-## Step 5: Generate CLAUDE.md
+## Step 5: Technical Review (Invoke Solution Architect)
 
-Compile all gathered information into CLAUDE.md. See `references/claude-md-template.md` for the template structure.
+After gathering requirements, invoke the solution-architect skill for technical validation.
+
+**Pass to Solution Architect:**
+
+- Project name and description
+- Selected features (by category)
+- Proposed technology stack
+- Third-party integrations
+
+**Solution Architect returns:**
+
+- Gray areas needing clarification (if any)
+- Platform breakdown (for multi-platform projects)
+- Architecture decisions
+- Technical risks
+
+**If gray areas identified:**
+> The Solution Architect has identified some technical questions:
+> [Present questions to developer]
+> 
+> Please clarify, or we'll use sensible defaults.
+
+**After clarification (or using defaults):**
+Proceed to generate CLAUDE.md with full technical details.
+
+## Step 6: Generate CLAUDE.md
+
+Compile all gathered information into CLAUDE.md, including architecture details from Solution Architect.
+
+See `references/claude-md-template.md` for the template structure.
 
 **CLAUDE.md includes:**
 
@@ -149,6 +179,8 @@ Compile all gathered information into CLAUDE.md. See `references/claude-md-templ
 - Technology stack
 - Third-party integrations
 - Platform breakdown (if multi-platform)
+- Architecture decisions
+- Technical risks
 
 Save to `/mnt/user-data/outputs/CLAUDE.md`.
 
@@ -160,3 +192,4 @@ Save to `/mnt/user-data/outputs/CLAUDE.md`.
 - Always include "All of the above" and "Other" options
 - Acknowledge selections briefly, then move to next step
 - No unnecessary explanations or preamble
+  

@@ -27,7 +27,7 @@ The future of software development is AI-assisted. MAflow bridges the gap betwee
 
 MAflow simulates the workflow of a professional software development organization:
 
-```
+```mardown
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                              MAflow Workflow                                │
 ├─────────────────────────────────────────────────────────────────────────────┤
@@ -90,6 +90,7 @@ MAflow consists of five specialized skills, each representing a role in a develo
 **Input:** Initial project idea or description from client/developer
 
 **Process:**
+
 1. **Project Vision** — Collects name, description, problem statement
 2. **Features** — Suggests features based on project type, allows selection
 3. **Technology Stack** — Recommends technologies, confirms preferences
@@ -98,6 +99,7 @@ MAflow consists of five specialized skills, each representing a role in a develo
 **Output:** `CLAUDE.md` — The comprehensive project specification
 
 **Key Features:**
+
 - Minimal questions, maximum suggestions
 - Smart inference from project description
 - Multi-select options with "All of the above" convenience
@@ -112,6 +114,7 @@ MAflow consists of five specialized skills, each representing a role in a develo
 **Input:** Requirements from Business Analyst, `CLAUDE.md`
 
 **Process:**
+
 1. **Review Requirements** — Analyze feasibility of proposed features
 2. **Identify Gray Areas** — Flag unclear or risky requirements
 3. **Platform Breakdown** — Define which platforms are needed
@@ -131,18 +134,21 @@ MAflow consists of five specialized skills, each representing a role in a develo
 **Input:** Approved `CLAUDE.md` from BA and Architect
 
 **Process:**
+
 1. **Platform Identification** — Determine all platforms to build
 2. **Module Breakdown** — Divide each platform into logical modules
 3. **Task Creation** — Create detailed tasks with acceptance criteria
 4. **Dependency Mapping** — Identify cross-platform dependencies
 5. **Phase Planning** — Organize tasks into development phases
 
-**Output:** 
+**Output:**
+
 - `TASKS-{platform}.md` — One task file per platform
 - Tasks organized by module/phase
 - Clear dependency references between tasks
 
 **Task Structure:**
+
 ```markdown
 ## Module: Authentication
 
@@ -166,6 +172,7 @@ MAflow consists of five specialized skills, each representing a role in a develo
 **Input:** Task assignments from `TASKS-{platform}.md`
 
 **Process:**
+
 1. **Task Selection** — Pick task from assigned platform
 2. **Dependency Check** — Verify dependent tasks are completed
 3. **Implementation** — Write code following project guidelines
@@ -173,10 +180,12 @@ MAflow consists of five specialized skills, each representing a role in a develo
 5. **Task Completion** — Mark task as complete, update task file
 
 **Output:** 
+
 - Working code implementation
 - Updated task status in `TASKS-{platform}.md`
 
 **Guidelines:**
+
 - Follow coding standards defined in `CLAUDE.md`
 - Check dependencies before starting work
 - Mark tasks complete only when all criteria met
@@ -187,11 +196,13 @@ MAflow consists of five specialized skills, each representing a role in a develo
 
 **Purpose:** Test completed modules and track issues.
 
-**Input:** 
+**Input:**
+
 - Test instructions from Project Manager
 - Completed modules from Software Engineer
 
 **Process:**
+
 1. **Receive Test Plan** — PM provides testing instructions per module
 2. **Execute Tests** — Run through test scenarios
 3. **Log Issues** — Document any bugs or failures found
@@ -201,6 +212,7 @@ MAflow consists of five specialized skills, each representing a role in a develo
 **Output:** `{module-name}.md` — Issue tracking file per module
 
 **Issue Structure:**
+
 ```markdown
 ## ISSUE-001: Login fails with valid credentials
 
@@ -228,7 +240,7 @@ Fixed null check in auth middleware. Root cause was...
 
 MAflow generates and maintains these key documents:
 
-```
+```mardown
 project/
 ├── CLAUDE.md                 # Source of truth (by BA + Architect)
 ├── TASKS-backend.md          # Backend tasks (by PM)
@@ -246,7 +258,8 @@ project/
 ## Workflow Example: Ride-Hailing App
 
 **Step 1: Business Analyst**
-```
+
+```mardown
 Developer: I want to build a ride-hailing app like Uber
 
 BA: Based on "ride-hailing app", here are typical Rider features:
@@ -266,7 +279,8 @@ BA: Here are typical Driver features:
 ```
 
 **Step 2: Solution Architect**
-```
+
+```mardown
 Architect: Reviewing CLAUDE.md...
 
 Platforms identified:
@@ -282,7 +296,8 @@ Risk assessment completed...
 ```
 
 **Step 3: Project Manager**
-```
+
+```mardown
 PM: Breaking down into tasks...
 
 [Generates]
@@ -297,7 +312,8 @@ Dependencies mapped:
 ```
 
 **Step 4: Software Engineer**
-```
+
+```mardown
 Dev: Starting TASK-BACKEND-001: Project Setup
 
 [Implements task]
@@ -308,7 +324,8 @@ Dev: Starting TASK-BACKEND-002: Database Schema
 ```
 
 **Step 5: Quality Assurance**
-```
+
+```mardown
 QA: Testing Authentication Module
 
 [Creates authentication.md]
@@ -328,6 +345,7 @@ QA: ✅ FIXED - Verified
 ## Installation & Usage
 
 ### Prerequisites
+
 - Claude AI with skills support
 - Access to Claude's computer use capabilities
 
@@ -340,7 +358,8 @@ QA: ✅ FIXED - Verified
 ### Using MAflow
 
 **Start a new project:**
-```
+
+```mardown
 You: I want to start a new project
 
 Claude: [Activates business-analyst skill]
@@ -348,7 +367,8 @@ What's the name of your project?
 ```
 
 **Generate tasks:**
-```
+
+```mardown
 You: Create tasks for this project
 
 Claude: [Activates project-manager skill]
@@ -356,7 +376,8 @@ Claude: [Activates project-manager skill]
 ```
 
 **Develop a feature:**
-```
+
+```mardown
 You: Start working on the authentication module
 
 Claude: [Activates software-engineer skill]
@@ -368,18 +389,23 @@ Claude: [Activates software-engineer skill]
 ## Design Principles
 
 ### 1. Minimal Input, Maximum Output
+
 Skills infer as much as possible from context, reducing developer burden.
 
 ### 2. Opinionated but Flexible
+
 Provides smart defaults while always allowing customization via "Other" options.
 
 ### 3. Document-Driven
+
 All decisions and progress tracked in markdown files — the source of truth.
 
 ### 4. Dependency-Aware
+
 Tasks explicitly reference dependencies, preventing blocked work.
 
 ### 5. Quality Built-In
+
 QA is integrated into the workflow, not an afterthought.
 
 ---
