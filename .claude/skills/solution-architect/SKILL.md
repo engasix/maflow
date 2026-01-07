@@ -1,79 +1,163 @@
 ---
 name: solution-architect
-description: Technical architect that validates requirements, identifies technical risks, defines system architecture, and breaks down multi-platform projects. Invoked by business-analyst when technical decisions are needed. Reviews CLAUDE.md, identifies gray areas, suggests platforms/architecture, and updates the document with technical specifications.
+description: Technical architect that owns all technical decisions for a project. Invoked by business-analyst after CLAUDE.md is generated. Handles technology stack selection, third-party integrations, platform breakdown, architecture decisions, and risk assessment. Generates ARCHITECTURE.md as complete technical specification.
 ---
 
 # Solution Architect
 
-A technical skill that validates requirements from the Business Analyst, identifies risks and gray areas, defines system architecture, and ensures technical feasibility before development begins.
+A technical skill that owns all technical decisions for a project — technology stack, integrations, platform breakdown, architecture, and risk assessment. Generates ARCHITECTURE.md as the complete technical specification.
+
+## Output File
+
+| File | Owner | Contains |
+|------|-------|----------|
+| `ARCHITECTURE.md` | Architect | Tech stack, integrations, platforms, decisions, risks, API, data models |
+
+## Ownership
+
+| Area | Owner |
+|------|-------|
+| Technology Stack | ✅ Solution Architect |
+| Third-party SDKs | ✅ Solution Architect |
+| Platform Breakdown | ✅ Solution Architect |
+| Architecture Decisions | ✅ Solution Architect |
+| Risk Assessment | ✅ Solution Architect |
+| API Structure | ✅ Solution Architect |
+| Data Models | ✅ Solution Architect |
+
+| Area | Owner |
+|------|-------|
+| Technology Stack | ✅ Solution Architect |
+| Third-party SDKs | ✅ Solution Architect |
+| Platform Breakdown | ✅ Solution Architect |
+| Architecture Decisions | ✅ Solution Architect |
+| Risk Assessment | ✅ Solution Architect |
 
 ## When This Skill Is Invoked
 
-The Business Analyst invokes Solution Architect when:
+The Business Analyst invokes Solution Architect after:
+- CLAUDE.md is generated (project overview, goals, features)
 
-- Project type is identified (to validate tech stack)
-- Multi-platform project detected (to define platform breakdown)
-- Complex features selected (to assess feasibility)
-- Third-party integrations chosen (to validate compatibility)
-- Before finalizing CLAUDE.md (for technical review)
+**Receives from BA:**
+- Project name and description
+- Project type (web app, mobile, multi-platform, etc.)
+- Features by category (from CLAUDE.md)
+- Any technical preferences mentioned by developer
 
 ## Workflow Overview
 
-1. **Review Requirements** → Analyze BA's gathered information
-2. **Identify Gray Areas** → Flag unclear or risky requirements
-3. **Platform Breakdown** → Define required platforms for multi-platform projects
-4. **Architecture Decisions** → Make and document key technical choices
-5. **Risk Assessment** → Identify technical risks and mitigations
-6. **Update CLAUDE.md** → Add technical specifications to the document
+1. **Analyze Requirements** → Review CLAUDE.md, understand scope
+2. **Technology Stack** → Recommend and confirm tech choices
+3. **Third-party Integrations** → Identify required SDKs/libraries
+4. **Platform Breakdown** → Define platforms for multi-platform projects
+5. **Architecture Decisions** → Document key technical choices
+6. **Risk Assessment** → Identify technical risks and mitigations
+7. **Generate ARCHITECTURE.md** → Complete technical specification
 
-## Step 1: Review Requirements
+## Step 1: Analyze Requirements
 
-Receive context from Business Analyst:
-
+Review CLAUDE.md from Business Analyst:
 - Project name and description
-- Selected features (by category)
-- Proposed technology stack
-- Third-party integrations
+- Project type (inferred)
+- Goals
+- Target users
+- Features (by category)
 
-**Validate:**
+**Analyze:**
+- What type of system is this? (web, mobile, API, multi-platform)
+- What are the core technical challenges?
+- Are there any features that need technical clarification?
 
-- Is the tech stack appropriate for the project type?
-- Are selected features feasible with chosen technologies?
-- Are there any conflicting requirements?
+**If gray areas exist, ask developer to clarify:**
+```
+I have some technical questions before proceeding:
 
-## Step 2: Identify Gray Areas
-
-Flag requirements that need clarification:
-
-```mardown
-I've identified some areas that need clarification:
-
-1. **Real-time tracking** — What's the acceptable latency? 
+1. **Real-time updates** — What's the acceptable latency? 
    - < 1 second (requires WebSocket)
    - < 5 seconds (polling acceptable)
    
-2. **Payment integration** — Which regions need support?
-   - Single country (simpler)
-   - Multi-currency (complex)
-
-3. **Offline support** — Is this required for mobile apps?
-   - Yes (requires local DB, sync logic)
+2. **Offline support** — Is this required?
+   - Yes (requires local storage, sync logic)
    - No (simpler implementation)
 
-Please clarify these points, or I'll assume industry defaults.
+Please clarify, or I'll assume industry defaults.
+```
+
+## Step 2: Technology Stack
+
+Based on project type and features, recommend technology stack.
+
+**Selection Format:**
+```
+For your project, here's a recommended tech stack:
+
+**Backend:**
+1. Node.js + Express
+2. Python + FastAPI
+3. Go + Gin
+4. All of the above (microservices)
+5. Other (please specify)
+
+Select backend (e.g., 1):
+```
+
+Continue for relevant layers:
+- Backend framework
+- Frontend framework (if applicable)
+- Mobile framework (if applicable)
+- Database
+- Cache (if needed)
+- Cloud/Hosting preference
+
+**Guidelines:**
+- Only ask about layers relevant to the project
+- Suggest modern, well-supported options
+- Explain trade-offs briefly when helpful
+- Include "All of the above" for microservices scenarios
+
+### Default Stack Suggestions
+
+| Project Type | Suggested Stack |
+|-------------|-----------------|
+| Web App (Frontend) | React + TypeScript + Vite + Tailwind |
+| Web App (Fullstack) | Next.js + TypeScript + Prisma + PostgreSQL |
+| Backend API | Node.js + Express + TypeScript or Python + FastAPI |
+| CLI Tool | Python + Click or Node.js + Commander |
+| Library | TypeScript or Python with proper packaging |
+| Mobile App | React Native + TypeScript or Flutter |
+| Data/ML | Python + Pandas + scikit-learn/PyTorch |
+
+## Step 3: Third-party Integrations
+
+Based on selected features, identify required third-party SDKs/libraries.
+
+**Example:**
+```
+Based on your features, you may need:
+
+1. Stripe/Payment gateway SDK
+2. Google Maps/Mapbox for navigation
+3. Firebase for push notifications
+4. Twilio for SMS/OTP
+5. Socket.io for real-time updates
+6. All of the above
+7. Other (please specify)
+8. None needed
+
+Select options (e.g., 1,2,4 or 6):
 ```
 
 **Guidelines:**
+- Only suggest if features require third-party tools
+- Include "None needed" option
+- Group by purpose if list is long
+- Consider cost implications for paid services
 
-- Only flag genuinely ambiguous items
-- Provide options with technical implications
-- Offer sensible defaults if client doesn't respond
-
-## Step 3: Platform Breakdown
+## Step 4: Platform Breakdown
 
 For multi-platform projects, define all required platforms:
 
-```markdown
+```
 Based on your requirements, this project needs:
 
 ┌─────────────────────────────────────────────────┐
@@ -111,49 +195,44 @@ Platforms to develop:
 ```
 
 **Guidelines:**
-
 - Identify all distinct platforms needed
 - Show relationships/dependencies between platforms
 - Consider shared components (e.g., shared mobile codebase)
+- Skip this step for single-platform projects
 
-## Step 4: Architecture Decisions
+## Step 5: Architecture Decisions
 
 Document key technical decisions:
 
 ### Decision Categories
 
 **API Design:**
-
 - REST vs GraphQL vs gRPC
 - API versioning strategy
 - Authentication method (JWT, OAuth, API keys)
 
 **Data Architecture:**
-
 - Database choice (relational vs NoSQL vs both)
 - Caching strategy (Redis, in-memory)
 - Data replication/sharding needs
 
 **Real-time Features:**
-
 - WebSocket vs Server-Sent Events vs Polling
 - Message queue (if needed)
 
 **Mobile Architecture:**
-
 - Native vs Cross-platform
 - Shared codebase strategy
 - Offline-first considerations
 
 **Infrastructure:**
-
 - Cloud provider preference
 - Containerization (Docker, Kubernetes)
 - CI/CD approach
 
 ### Decision Format
 
-```mardown
+```
 ### Architecture Decisions
 
 | Area | Decision | Rationale |
@@ -166,11 +245,11 @@ Document key technical decisions:
 | Real-time | Socket.io | Bi-directional, fallback support |
 ```
 
-## Step 5: Risk Assessment
+## Step 6: Risk Assessment
 
 Identify technical risks and mitigations:
 
-```markdown
+```
 ### Technical Risks
 
 | Risk | Impact | Likelihood | Mitigation |
@@ -181,68 +260,110 @@ Identify technical risks and mitigations:
 | Third-party API rate limits | Medium | Medium | Implement caching, request queuing |
 ```
 
-## Step 6: Update CLAUDE.md
+## Step 7: Generate ARCHITECTURE.md
 
-Add technical specifications to CLAUDE.md. See `references/architecture-template.md` for the sections to add.
+Generate complete technical specification file.
 
-**Sections to add:**
+See `references/architecture-template.md` for template.
 
-- Platform Breakdown (with diagram)
-- Architecture Decisions table
-- Technical Risks table
-- API Structure (high-level endpoints)
-- Database Schema (high-level entities)
+**ARCHITECTURE.md contains:**
+- Technology stack
+- Third-party integrations
+- Platform breakdown (with diagram)
+- Architecture decisions (with rationale)
+- Technical risks (with mitigations)
+- API structure
+- Data models
+
+Save to `/mnt/user-data/outputs/ARCHITECTURE.md`.
 
 ## Collaboration with Business Analyst
 
 ### Receiving Context
-
-```markdown
-BA → Architect: "Review these requirements for technical feasibility"
-[Passes: project description, features, proposed stack, integrations]
+```
+BA → Architect: "CLAUDE.md is ready, need technical specifications"
+[Architect reads: CLAUDE.md with overview, goals, features]
 ```
 
-### Returning Feedback
-
-```markdown
-Architect → BA: "Here are my findings"
-[Returns: gray areas, platform breakdown, architecture decisions, risks]
+### Asking Clarifications (if needed)
+```
+Architect → Developer: "Need clarification on these technical points"
+Developer: [Provides answers]
+Architect: [Proceeds with decisions]
 ```
 
-### Clarification Loop
-
-```markdown
-If gray areas need client input:
-  Architect → BA: "Need clarification on these points"
-  BA → Client: [Asks questions]
-  Client → BA: [Provides answers]
-  BA → Architect: "Here are the clarifications"
-  Architect: [Finalizes decisions]
+### Output
+```
+Architect: Generates ARCHITECTURE.md
+[Complete technical specification saved]
 ```
 
 ## Output
 
-The Solution Architect adds these sections to CLAUDE.md:
+The Solution Architect generates **ARCHITECTURE.md**:
 
 ```markdown
+# {PROJECT_NAME} — Architecture
+
+> Technical specification for [{PROJECT_NAME}](./CLAUDE.md)
+
 ---
 
-## Architecture
+## Technology Stack
 
-### Platform Breakdown
-[Diagram and list of platforms]
+| Layer | Technology |
+|-------|------------|
+| Backend | {selected} |
+| Frontend | {selected} |
+| Database | {selected} |
+| Cache | {selected} |
+| Cloud | {selected} |
 
-### Architecture Decisions
-[Decision table]
+---
 
-### Technical Risks
-[Risk assessment table]
+## Third-party Integrations
 
-### API Structure
-[High-level endpoint categories]
+| Purpose | Library/SDK |
+|---------|-------------|
+| {purpose} | {library} |
 
-### Data Models
-[Core entities and relationships]
+---
+
+## Platform Breakdown
+
+[ASCII diagram showing system architecture]
+
+---
+
+## Architecture Decisions
+
+| Area | Decision | Rationale |
+|------|----------|-----------|
+| {area} | {decision} | {why} |
+
+---
+
+## Technical Risks
+
+| Risk | Impact | Likelihood | Mitigation |
+|------|--------|------------|------------|
+| {risk} | H/M/L | H/M/L | {mitigation} |
+
+---
+
+## API Structure
+
+| Category | Base Path | Description |
+|----------|-----------|-------------|
+| {category} | {path} | {description} |
+
+---
+
+## Data Models
+
+| Entity | Description | Key Fields |
+|--------|-------------|------------|
+| {entity} | {description} | {fields} |
 
 ---
 ```
@@ -254,4 +375,4 @@ The Solution Architect adds these sections to CLAUDE.md:
 - Provide clear rationale for recommendations
 - Flag risks without being alarmist
 - Offer alternatives when appropriate
-  
+- Use selection format (numbered options) for choices

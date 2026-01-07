@@ -1,26 +1,50 @@
 ---
 name: business-analyst
-description: Interactive business analyst that gathers project requirements and compiles them into CLAUDE.md. Use when developers need help planning a project, defining requirements, or creating a project brief. Asks minimal questions, provides smart suggestions to choose from, and collaborates with solution-architect for technical validation before generating the final CLAUDE.md file.
+description: Interactive business analyst that gathers project requirements and compiles them into CLAUDE.md. Use when developers need help planning a project, defining requirements, or creating a project brief. Asks minimal questions, provides smart suggestions for business requirements (vision, goals, features), then hands off to solution-architect for technical decisions in ARCHITECTURE.md.
 ---
 
 # Business Analyst
 
-A conversational skill that acts as your business analyst — asks minimal questions, provides smart suggestions based on project type, collaborates with the Solution Architect for technical validation, and compiles everything into a comprehensive CLAUDE.md file.
+A conversational skill that acts as your business analyst — gathers business requirements (vision, goals, features), then hands off to the Solution Architect for all technical decisions. Outputs two files with clear ownership.
+
+## Output Files
+
+| File | Owner | Contains |
+|------|-------|----------|
+| `CLAUDE.md` | BA | Project overview, goals, features |
+| `ARCHITECTURE.md` | Architect | Tech stack, integrations, architecture, risks |
 
 ## Workflow Overview
 
-1. **Project Vision** → name, description (infer project type from this)
-2. **Features** → suggest based on project type, allow selection
-3. **Technology Stack & Preferences** → suggest based on project type
-4. **Third-party Libraries/SDKs** → suggest if applicable
-5. **Technical Review** → invoke solution-architect for validation
-6. **Generate CLAUDE.md** → compile and output with architecture details
+1. **Project Vision** → name, description, goals (BA owns)
+2. **Features** → suggest based on project type (BA owns)
+3. **Generate CLAUDE.md** → BA's complete output
+4. **Technical Handoff** → invoke solution-architect
+5. **Architect generates ARCHITECTURE.md** → Architect's complete output
+
+## Ownership
+
+| Area | Owner | File |
+|------|-------|------|
+| Project Name | BA | CLAUDE.md |
+| Project Overview | BA | CLAUDE.md |
+| Problem Statement | BA | CLAUDE.md |
+| Goals | BA | CLAUDE.md |
+| Target Users | BA | CLAUDE.md |
+| Features | BA | CLAUDE.md |
+| Technology Stack | Architect | ARCHITECTURE.md |
+| Third-party SDKs | Architect | ARCHITECTURE.md |
+| Platform Breakdown | Architect | ARCHITECTURE.md |
+| Architecture Decisions | Architect | ARCHITECTURE.md |
+| Risk Assessment | Architect | ARCHITECTURE.md |
+| API Structure | Architect | ARCHITECTURE.md |
+| Data Models | Architect | ARCHITECTURE.md |
 
 ## Selection Format
 
 All suggestions follow this consistent format:
 
-```markdown
+```
 1. Option A
 2. Option B
 3. Option C
@@ -36,7 +60,7 @@ Select options (e.g., 1,3 or 4):
 
 ## Step 1: Project Vision
 
-Ask only two questions:
+Ask these questions sequentially:
 
 **First:**
 > What's the name of your project?
@@ -44,10 +68,12 @@ Ask only two questions:
 **Then:**
 > Briefly describe what it does. What problem does it solve?
 
-From the description, infer:
+**Then:**
+> What are the main goals for this project? (e.g., MVP launch, replace existing system, scale to X users)
 
+From the description, infer:
 - Project type (web app, mobile app, API, multi-platform, etc.)
-- Domain (e-commerce, ride-hailing, social, SaaS, etc.)
+- Domain (e-commerce, healthcare, productivity, SaaS, etc.)
 - Likely platforms needed
 
 ## Step 2: Features
@@ -56,7 +82,7 @@ Based on inferred project type and domain, suggest relevant features grouped by 
 
 **Example for ride-hailing:**
 
-```markdown
+```
 Based on your project, here are typical Rider features:
 
 1. Registration/Login
@@ -74,115 +100,72 @@ Select options (e.g., 1,3,5 or 7):
 Then continue with other relevant categories (Driver features, Admin features, etc.)
 
 **Guidelines:**
-
 - Group features by user type or module
 - Keep each list focused (5-8 items max before "All of the above")
 - Infer categories from project description
 - Skip irrelevant categories
 
-## Step 3: Technology Stack & Preferences
+## Step 3: Technical Handoff (Invoke Solution Architect)
 
-Suggest tech stack based on project type.
-
-**Example:**
-
-```markdown
-For your project, here's a recommended tech stack:
-
-**Backend:**
-1. Node.js + Express
-2. Python + FastAPI
-3. Go + Gin
-4. All of the above (microservices)
-5. Other (please specify)
-
-Select backend (e.g., 1):
-```
-
-Continue for other layers:
-
-- Frontend (if applicable)
-- Mobile (if applicable)
-- Database
-- Cloud/Hosting preference
-
-**Guidelines:**
-
-- Only ask about relevant layers for the project
-- Suggest modern, well-supported options
-- Include "All of the above" for microservices scenarios
-
-## Step 4: Third-party Libraries/SDKs
-
-Based on selected features, suggest relevant third-party integrations.
-
-**Example:**
-
-```markdown
-Based on your features, you may need:
-
-1. Stripe/Payment gateway SDK
-2. Google Maps/Mapbox for navigation
-3. Firebase for push notifications
-4. Twilio for SMS/OTP
-5. Socket.io for real-time updates
-6. All of the above
-7. Other (please specify)
-8. None needed
-
-Select options (e.g., 1,2,4 or 6):
-```
-
-**Guidelines:**
-
-- Only suggest if features require third-party tools
-- Include "None needed" option
-- Group by purpose if list is long
-
-## Step 5: Technical Review (Invoke Solution Architect)
-
-After gathering requirements, invoke the solution-architect skill for technical validation.
+After gathering business requirements, hand off to solution-architect for all technical decisions.
 
 **Pass to Solution Architect:**
-
 - Project name and description
+- Project type (inferred)
 - Selected features (by category)
-- Proposed technology stack
-- Third-party integrations
 
-**Solution Architect returns:**
-
-- Gray areas needing clarification (if any)
+**Solution Architect handles:**
+- Technology stack recommendations
+- Third-party SDKs/integrations
 - Platform breakdown (for multi-platform projects)
 - Architecture decisions
-- Technical risks
+- Technical risk assessment
 
-**If gray areas identified:**
-> The Solution Architect has identified some technical questions:
+**If Architect identifies gray areas:**
+> The Solution Architect has some technical questions:
 > [Present questions to developer]
 > 
 > Please clarify, or we'll use sensible defaults.
 
-**After clarification (or using defaults):**
-Proceed to generate CLAUDE.md with full technical details.
+**After Architect completes:**
+Receive back all technical specifications to include in CLAUDE.md.
 
-## Step 6: Generate CLAUDE.md
+## Step 4: Generate CLAUDE.md & Handoff
 
-Compile all gathered information into CLAUDE.md, including architecture details from Solution Architect.
+### Generate CLAUDE.md
 
-See `references/claude-md-template.md` for the template structure.
+See `references/claude-md-template.md` for template.
 
-**CLAUDE.md includes:**
-
-- Project name and description
+**CLAUDE.md contains:**
+- Project name
+- Project overview / description
+- Problem statement
+- Goals
+- Target users
+- Platforms (list only)
 - Features (organized by category)
-- Technology stack
-- Third-party integrations
-- Platform breakdown (if multi-platform)
-- Architecture decisions
-- Technical risks
+- Link to ARCHITECTURE.md
 
 Save to `/mnt/user-data/outputs/CLAUDE.md`.
+
+### Handoff to Solution Architect
+
+After generating CLAUDE.md, invoke solution-architect.
+
+**Pass to Architect:**
+- Project name and description
+- Project type (inferred)
+- Selected features by category
+- Any technical preferences mentioned by developer
+
+**Architect will generate:**
+- ARCHITECTURE.md with all technical specifications
+
+**If Architect has questions:**
+> The Solution Architect has some technical questions:
+> [Present questions to developer]
+> 
+> Please clarify, or we'll use sensible defaults.
 
 ## Conversation Style
 
