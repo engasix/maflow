@@ -1,103 +1,91 @@
 # The Workflow
 
-I previously worked in an organization, and I want to implement their workflow:
+Based on real-world experience from a software development organization.
 
 ---
 
 ## Start Here
 
 ### 1. Lead Intake
-They receive the lead.
+The organization receives a lead.
 
 ### 2. Initial Sales Call
-A sales agent goes on a call with the client and gathers an initial understanding of the project.
+A sales agent calls the client and gathers an initial understanding of the project.
 
 ### 3. Handover to Business Analyst
-The sales agent passes the information to the BA.  
-*(This is where the skill **business-analyst** starts.)*
+The sales agent passes the information to the BA.
 
 ### 4. Requirement Analysis & Clarification
-The BA analyzes everything and discusses the requirements with the architect (skill name **solution-architect**).
+The BA analyzes everything and discusses requirements with the architect.
 
-- If there are any hurdles or gray areas in the requirements, they clarify them with the client.
-- If there is anything that is not possible or not allowed, they find an alternate solution that is applicable and acceptable to the client.
+- If there are gray areas, they clarify with the client.
+- If something is not possible, they find an acceptable alternate solution.
+- This goes back and forth until all requirements are clear.
 
-This process goes back and forth until all requirements are clear from the client to the technical team.
+### 5. Documentation
+Once requirements are clear:
 
-### 5. Proposal Document Creation
-Once the requirements are clear, the BA generates a proposal document that includes:
-
-- Project vision  
-- Stakeholders  
-- Features  
-- Technology stack and preferences  
-- Any third-party libraries or SDKs required for the solution  
-- Timeline and cost  
+- BA creates the project specification (vision, goals, features)
+- Architect creates technical specification (tech stack, architecture, risks)
 
 ### 6. Proposal Review & Sign-off
-Once the document is ready and verified by the technical and BA teams, it is shared with the client.
+The documents are shared with the client.
 
-- The client may ask for changes or clarifications.
-- Once the document is signed, it moves into development.
+- Client may ask for changes or clarifications.
+- Once signed, the project moves into development.
 
 ### 7. Project Manager Assignment
-A project manager is assigned to the project.  
-*(This is where the skill **project-manager** starts.)*
+A project manager is assigned to the project.
 
-### 8. Proposal as Source of Truth
-The proposal document becomes the source of truth for the project manager.
+### 8. Team Setup
+The project manager:
 
-The project manager discusses all requirements with the architect (skill name **solution-architect**), which helps them decide which platforms need to be developed, while the technology stack is already defined in the proposal document.
+- Reviews the signed documents as source of truth
+- Determines which platforms need to be developed
+- Creates developer agents for each platform
+- Creates a QA agent for testing
+- Sets up the project folder structure
 
-### 9. Task Creation & Dependency Management
-Once the platforms are finalized, the project manager creates tasks for each platform in separate MD files.
+### 9. Task Creation
+The project manager:
 
-- The project manager handles dependency management.
-- For example, frontend tasks may depend on backend APIs, so there should be a clear reference to such dependencies.
-- When a developer (skill name **software-engineer**) starts a task, they must confirm that dependent tasks are completed before beginning development.
-- Tasks are organized into phases or modules.
-- Once a task is completed by the developer, it is reviewed.
+- Breaks down features into tasks per platform
+- Organizes tasks by modules
+- Defines dependencies between tasks
+- Adds test cases for each task
 
-### 10. Quality Assurance & Issue Tracking
-At the end of every module or phase, the project manager writes detailed instructions for QA (skill name **quality-assurance**) on how to test the module or phase.
+### 10. Development
+Developers work on their assigned platforms:
 
-- There are multiple test scenarios for each module.
-- If QA finds any issues, they log them in an MD file (QA will generate the MD file if it does not already exist).
-- File name format: `module-name.md`
-- Issues are added using the same structure as tasks.
-- Each issue includes complete details, steps to reproduce, navigation paths, and screenshots if needed.
-- Each issue must reference the module being tested.
+- Pick tasks with no blockers
+- Check that dependencies are complete before starting
+- Implement the code
+- Mark tasks as done when complete
 
-### 11. Issue Resolution
-If any issues are reported by QA:
+### 11. Quality Assurance
+QA tests completed tasks:
 
-- The developer fixes them.
-- Issues are marked as resolved in the MD file generated by QA.
-- The developer may add comments explaining how the issue was fixed and the root cause.
+- Executes test cases
+- Logs issues directly in the task file if tests fail
+- Includes steps to reproduce and expected vs actual behavior
 
-### 12. QA Re-validation
-QA checks the status of the issues they created in the MD file.
+### 12. Issue Resolution
+When QA finds issues:
 
-- If an issue is marked as resolved but is not actually fixed, QA can reopen it.
-- If the issue is fixed, QA leaves a comment such as **FIXED**.
+- Developer fixes the issue
+- Developer marks it as fixed with explanation
+- QA verifies the fix
+- If not fixed, QA reopens the issue
 
 ### 13. Deployment
-Once all modules are developed and pass QA, the project manager asks the architect to deploy the project.
+Once all tasks are complete and verified by QA, the project is ready for deployment.
 
 ---
 
-## Skills to Be Developed
+## Roles
 
-We will develop the following skills together:
-
-1. **business-analyst**
-2. **solution-architect**
-3. **project-manager**
-4. **software-engineer**
-5. **quality-assurance**
-
----
-
-## Next Step
-
-For now, we will develop **business-analyst** as a skill and later generate slash commands, sub-agents, and tools for this structure.
+- **Business Analyst** — Gathers requirements, creates project specification
+- **Solution Architect** — Defines technical approach, creates architecture specification
+- **Project Manager** — Sets up team, creates tasks, manages workflow
+- **Developers** — Implement tasks, fix issues
+- **QA** — Tests tasks, logs and verifies issues

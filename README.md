@@ -17,7 +17,7 @@ MAflow is an intelligent skill-based system that simulates a complete software d
 The future of software development is AI-assisted. MAflow bridges the gap between traditional software engineering practices and modern AI capabilities, creating a system where:
 
 - **Experience meets AI** — Proven workflows encoded into intelligent skills
-- **Teams are simulated** — BA, Architect, PM, Developer, QA working together
+- **Teams are simulated** — BA, Architect, PM, Developers, QA working together
 - **Quality is built-in** — Production-ready outputs from day one
 - **Efficiency is maximized** — Minimal input, maximum output
 
@@ -27,7 +27,7 @@ The future of software development is AI-assisted. MAflow bridges the gap betwee
 
 MAflow simulates the workflow of a professional software development organization:
 
-```mardown
+```
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                              MAflow Workflow                                │
 ├─────────────────────────────────────────────────────────────────────────────┤
@@ -35,40 +35,55 @@ MAflow simulates the workflow of a professional software development organizatio
 │   [Client/Developer]                                                        │
 │         │                                                                   │
 │         ▼                                                                   │
-│   ┌─────────────┐     ┌──────────────────┐                                  │
-│   │  Business   │────▶│    Solution      │                                  │
-│   │  Analyst    │◀────│    Architect     │                                  │
-│   └─────────────┘     └──────────────────┘                                  │
-│         │                     │                                             │
-│         ▼                     ▼                                             │
+│   ┌─────────────┐                                                           │
+│   │  Business   │                                                           │
+│   │  Analyst    │ ──────────────────────────────────────┐                   │
+│   └─────────────┘                                       │                   │
+│         │                                               │                   │
+│         ▼                                               ▼                   │
+│   ┌─────────────┐                              ┌──────────────────┐         │
+│   │ CLAUDE.md   │                              │    Solution      │         │
+│   │ (BA Output) │                              │    Architect     │         │
+│   └─────────────┘                              └──────────────────┘         │
+│                                                         │                   │
+│                                                         ▼                   │
+│                                                ┌──────────────────┐         │
+│                                                │ ARCHITECTURE.md  │         │
+│                                                │(Architect Output)│         │
+│                                                └──────────────────┘         │
+│                                                         │                   │
+│         ┌───────────────────────────────────────────────┘                   │
+│         ▼                                                                   │
+│   ┌───────────────┐                                                         │
+│   │    Project    │                                                         │
+│   │    Manager    │                                                         │
+│   └───────────────┘                                                         │
+│         │                                                                   │
+│         ├──────────────────────────────────────────────────┐                │
+│         │                                                  │                │
+│         ▼                                                  ▼                │
+│   ┌─────────────┐                                  ┌─────────────┐          │
+│   │   .claude/  │                                  │   tasks/    │          │
+│   │   agents/   │                                  │             │          │
+│   ├─────────────┤                                  ├─────────────┤          │
+│   │ backend-    │                                  │ TASKS-      │          │
+│   │ developer.md│                                  │ backend.md  │          │
+│   │ frontend-   │                                  │ TASKS-      │          │
+│   │ developer.md│                                  │ frontend.md │          │
+│   │ qa.md       │                                  └─────────────┘          │
+│   └─────────────┘                                                           │
+│         │                                                  │                │
+│         │              ┌───────────────────────────────────┘                │
+│         ▼              ▼                                                    │
 │   ┌─────────────────────────────────────┐                                   │
-│   │         CLAUDE.md (Source of Truth) │                                   │
+│   │      Platform Sub-Agents            │                                   │
+│   │   (Execute tasks, write code)       │                                   │
 │   └─────────────────────────────────────┘                                   │
 │                       │                                                     │
 │                       ▼                                                     │
-│               ┌───────────────┐                                             │
-│               │    Project    │                                             │
-│               │    Manager    │                                             │
-│               └───────────────┘                                             │
-│                       │                                                     │
-│         ┌─────────────┼─────────────┐                                       │
-│         ▼             ▼             ▼                                       │
-│   ┌──────────┐  ┌──────────┐  ┌──────────┐                                  │
-│   │ TASKS-   │  │ TASKS-   │  │ TASKS-   │                                  │
-│   │ backend  │  │ frontend │  │ mobile   │                                  │
-│   │   .md    │  │   .md    │  │   .md    │                                  │
-│   └──────────┘  └──────────┘  └──────────┘                                  │
-│         │             │             │                                       │
-│         ▼             ▼             ▼                                       │
 │   ┌─────────────────────────────────────┐                                   │
-│   │         Software Engineer           │                                   │
-│   │      (Development & Coding)         │                                   │
-│   └─────────────────────────────────────┘                                   │
-│                       │                                                     │
-│                       ▼                                                     │
-│   ┌─────────────────────────────────────┐                                   │
-│   │        Quality Assurance            │                                   │
-│   │    (Testing & Issue Tracking)       │                                   │
+│   │        QA Sub-Agent                 │                                   │
+│   │  (Test & log issues in task files)  │                                   │
 │   └─────────────────────────────────────┘                                   │
 │                       │                                                     │
 │                       ▼                                                     │
@@ -79,265 +94,332 @@ MAflow simulates the workflow of a professional software development organizatio
 
 ---
 
+## Skills vs Sub-Agents
+
+MAflow uses two types of AI workers:
+
+| Type | What It Is | Created By | Examples |
+|------|------------|------------|----------|
+| **Skill** | Reusable capability, part of MAflow system | MAflow (packaged as .skill) | business-analyst, solution-architect, project-manager |
+| **Sub-Agent** | Project-specific worker, created per project | Project Manager | backend-developer, frontend-developer, qa |
+
+---
+
+## Folder Structure
+
+```
+/
+├── .claude/
+│   └── agents/                      # Sub-agents (created by PM)
+│       ├── backend-developer.md
+│       ├── frontend-developer.md
+│       └── qa.md
+│
+├── CLAUDE.md                        # Project requirements (by BA)
+├── ARCHITECTURE.md                  # Technical specs (by Architect)
+│
+├── tasks/                           # Task files (created by PM)
+│   ├── TASKS-backend.md             # Tasks + Test Cases + Issues
+│   └── TASKS-frontend.md
+│
+└── {project-name}/                  # Code only (by Sub-agents)
+    ├── backend/
+    └── frontend/
+```
+
+---
+
 ## Skills
 
-MAflow consists of five specialized skills, each representing a role in a development team:
+MAflow consists of three core skills that work together:
 
 ### 1. Business Analyst (`business-analyst`)
 
-**Purpose:** Gather requirements and create the project's source of truth.
+**Purpose:** Gather requirements and create the project specification.
 
-**Input:** Initial project idea or description from client/developer
-
-**Process:**
-
-1. **Project Vision** — Collects name, description, problem statement
+**Workflow:**
+1. **Project Vision** — Collects name, description, goals
 2. **Features** — Suggests features based on project type, allows selection
-3. **Technology Stack** — Recommends technologies, confirms preferences
-4. **Third-party Integrations** — Identifies required SDKs/libraries
+3. **Generate CLAUDE.md** — Creates project specification
+4. **Handoff** — Passes to Solution Architect
 
-**Output:** `CLAUDE.md` — The comprehensive project specification
+**Output:** `CLAUDE.md` — Project overview, goals, features
 
 **Key Features:**
-
 - Minimal questions, maximum suggestions
 - Smart inference from project description
 - Multi-select options with "All of the above" convenience
-- Supports multi-platform projects (backend, web, mobile, admin)
 
 ---
 
 ### 2. Solution Architect (`solution-architect`)
 
-**Purpose:** Validate technical feasibility and define system architecture.
+**Purpose:** Define technical architecture and specifications.
 
-**Input:** Requirements from Business Analyst, `CLAUDE.md`
+**Workflow:**
+1. **Analyze Requirements** — Review CLAUDE.md
+2. **Technology Stack** — Recommend and confirm tech choices
+3. **Third-party Integrations** — Identify required SDKs/libraries
+4. **Platform Breakdown** — Define platforms for multi-platform projects
+5. **Architecture Decisions** — Document key technical decisions
+6. **Risk Assessment** — Identify technical risks and mitigations
+7. **Generate ARCHITECTURE.md** — Create technical specification
 
-**Process:**
-
-1. **Review Requirements** — Analyze feasibility of proposed features
-2. **Identify Gray Areas** — Flag unclear or risky requirements
-3. **Platform Breakdown** — Define which platforms are needed
-4. **Architecture Decisions** — Document key technical decisions
-5. **Risk Assessment** — Identify technical risks and mitigations
-
-**Output:** Updated `CLAUDE.md` with architecture decisions and platform breakdown
-
-**Collaboration:** Works with BA to clarify requirements with client when needed
+**Output:** `ARCHITECTURE.md` — Tech stack, platforms, architecture, risks
 
 ---
 
 ### 3. Project Manager (`project-manager`)
 
-**Purpose:** Break down the project into actionable, trackable tasks.
+**Purpose:** Setup development team, create tasks, and manage project structure.
 
-**Input:** Approved `CLAUDE.md` from BA and Architect
+**Three Main Responsibilities:**
 
-**Process:**
+| # | Role | Description |
+|---|------|-------------|
+| 1 | Add Specifications | Fill gaps in requirements if needed |
+| 2 | Setup Team | Create sub-agents with latest best practices (researched online) |
+| 3 | Create Tasks | Generate task files with test cases |
 
-1. **Platform Identification** — Determine all platforms to build
-2. **Module Breakdown** — Divide each platform into logical modules
-3. **Task Creation** — Create detailed tasks with acceptance criteria
-4. **Dependency Mapping** — Identify cross-platform dependencies
-5. **Phase Planning** — Organize tasks into development phases
+**Workflow Modes:**
+
+**First Time (Auto-Guided):**
+```
+PM: Analyzing project...
+
+Checking: CLAUDE.md ✅ Found
+Checking: ARCHITECTURE.md ✅ Found
+Checking: .claude/agents/ ❌ Not found
+Checking: tasks/ ❌ Not found
+
+Step 1/3: Additional Specifications
+Step 2/3: Setup Team  
+Step 3/3: Create Tasks
+```
+
+**Subsequent Visits (Menu):**
+```
+1. Add New Features
+2. Modify Team
+3. View Status
+4. Re-generate Tasks
+```
 
 **Output:**
+- `.claude/agents/{platform}-developer.md` — Platform-specific sub-agents
+- `.claude/agents/qa.md` — QA sub-agent
+- `tasks/TASKS-{platform}.md` — Tasks with test cases
+- `{project-name}/{platform}/` — Code folders
 
-- `TASKS-{platform}.md` — One task file per platform
-- Tasks organized by module/phase
-- Clear dependency references between tasks
+---
 
-**Task Structure:**
+## Sub-Agents (Created by Project Manager)
+
+Sub-agents are project-specific workers created dynamically by the Project Manager.
+
+### Dynamic Best Practices
+
+Sub-agents are NOT hardcoded. For any tech stack, PM:
+
+1. **Detects tech** from ARCHITECTURE.md
+2. **Searches online** for latest best practices
+3. **Creates agent** with researched patterns
+
+**Search queries executed:**
+```
+"{tech} architecture pattern best practices {current_year}"
+"{tech} recommended project structure {current_year}"
+"{tech} coding standards style guide"
+"{tech} recommended libraries ecosystem {current_year}"
+"{tech} testing best practices"
+```
+
+**Example:** For Go + Gin backend:
+```
+Searching: "Go Gin architecture pattern best practices 2025"
+Searching: "Go recommended project structure 2025"
+...
+✅ Created: .claude/agents/backend-developer.md
+```
+
+### Agent Naming Convention
+
+| Platform Type | Agent File |
+|---------------|------------|
+| Backend (any tech) | `backend-developer.md` |
+| Frontend (any tech) | `frontend-developer.md` |
+| iOS (any tech) | `ios-developer.md` |
+| Android (any tech) | `android-developer.md` |
+| Mobile cross-platform | `mobile-developer.md` |
+| Admin/Dashboard | `admin-developer.md` |
+| QA (all platforms) | `qa.md` |
+
+---
+
+## Task Structure
+
+Tasks are stored in `tasks/TASKS-{platform}.md` with test cases and issues in the same file:
 
 ```markdown
 ## Module: Authentication
 
-### TASK-001: Implement User Registration API
+### TASK-BE-003: Implement user registration
 - **Priority:** High
 - **Size:** M (2-4 hours)
-- **Dependencies:** None
+- **Dependencies:** TASK-BE-002
+- **Status:** ⬜ Pending
+- **Description:** POST `/api/auth/register` endpoint
 - **Acceptance Criteria:**
-  - [ ] POST /api/auth/register endpoint
-  - [ ] Email validation
-  - [ ] Password hashing
+  - [ ] Validates email format
+  - [ ] Validates password strength
+  - [ ] Hashes password with bcrypt
   - [ ] Returns JWT token
+
+#### Test Cases
+| ID | Scenario | Expected | Status |
+|----|----------|----------|--------|
+| TC-BE-003-1 | Valid registration | 201, returns JWT | ⬜ |
+| TC-BE-003-2 | Duplicate email | 409 error | ⬜ |
+| TC-BE-003-3 | Weak password | 400 error | ⬜ |
+
+#### Issues
+_No issues_
 ```
 
----
+### Cross-Platform Dependencies
 
-### 4. Software Engineer (`software-engineer`)
-
-**Purpose:** Implement tasks and write production-quality code.
-
-**Input:** Task assignments from `TASKS-{platform}.md`
-
-**Process:**
-
-1. **Task Selection** — Pick task from assigned platform
-2. **Dependency Check** — Verify dependent tasks are completed
-3. **Implementation** — Write code following project guidelines
-4. **Self-Review** — Ensure code meets acceptance criteria
-5. **Task Completion** — Mark task as complete, update task file
-
-**Output:** 
-
-- Working code implementation
-- Updated task status in `TASKS-{platform}.md`
-
-**Guidelines:**
-
-- Follow coding standards defined in `CLAUDE.md`
-- Check dependencies before starting work
-- Mark tasks complete only when all criteria met
-
----
-
-### 5. Quality Assurance (`quality-assurance`)
-
-**Purpose:** Test completed modules and track issues.
-
-**Input:**
-
-- Test instructions from Project Manager
-- Completed modules from Software Engineer
-
-**Process:**
-
-1. **Receive Test Plan** — PM provides testing instructions per module
-2. **Execute Tests** — Run through test scenarios
-3. **Log Issues** — Document any bugs or failures found
-4. **Track Resolution** — Monitor issue fixes by developers
-5. **Verify Fixes** — Confirm issues are resolved
-
-**Output:** `{module-name}.md` — Issue tracking file per module
-
-**Issue Structure:**
+When frontend depends on backend:
 
 ```markdown
-## ISSUE-001: Login fails with valid credentials
+### TASK-FE-005: Build login form
+- **Dependencies:** TASK-BE-004@backend
+```
 
-- **Status:** Open | Resolved | Verified | Reopened
-- **Severity:** Critical | High | Medium | Low
-- **Module:** Authentication
-- **Steps to Reproduce:**
-  1. Navigate to /login
-  2. Enter valid email and password
-  3. Click "Sign In"
-- **Expected:** User logged in, redirected to dashboard
-- **Actual:** Error message "Invalid credentials"
-- **Screenshot:** [if applicable]
+Format: `{TASK-ID}@{platform}`
 
-### Resolution (by Developer):
-Fixed null check in auth middleware. Root cause was...
+### Task Status Flow
 
-### Verification (by QA):
-✅ FIXED - Verified on 2024-01-15
+```
+⬜ Pending → 🔄 In Progress → ✅ Done → ✅ Verified
+                                │
+                                ▼ (if QA finds issue)
+                           🔴 Has Issues → 🟡 Fixed → ✅ Verified
 ```
 
 ---
 
-## Document Structure
+## Development Workflow
 
-MAflow generates and maintains these key documents:
+### Developer Flow
 
-```mardown
-project/
-├── CLAUDE.md                 # Source of truth (by BA + Architect)
-├── TASKS-backend.md          # Backend tasks (by PM)
-├── TASKS-frontend.md         # Frontend tasks (by PM)
-├── TASKS-mobile.md           # Mobile tasks (by PM)
-├── TASKS-admin.md            # Admin dashboard tasks (by PM)
-└── qa/
-    ├── authentication.md     # Auth module issues (by QA)
-    ├── booking.md            # Booking module issues (by QA)
-    └── payments.md           # Payment module issues (by QA)
+```
+@backend-developer start
+
+backend-developer:
+  1. Reads tasks/TASKS-backend.md
+  2. Picks task with no blockers
+  3. Implements in {project-name}/backend/
+  4. Updates task status: ⬜ → ✅
+  5. Continues to next task
+```
+
+### QA Flow
+
+```
+@qa start
+
+qa:
+  1. Reads all TASKS-*.md files
+  2. Finds tasks with status ✅ Done
+  3. Executes test cases
+  4. If pass → marks ✅ Verified
+  5. If fail → logs issue in same task file
+```
+
+### Bug Fix Cycle
+
+```
+QA logs issue → Developer fixes → QA verifies
+     │                │                │
+     ▼                ▼                ▼
+Status: 🔴 Open → 🟡 Fixed → ✅ Verified
 ```
 
 ---
 
-## Workflow Example: Ride-Hailing App
+## Complete Workflow Example
 
 **Step 1: Business Analyst**
+```
+Developer: I want to build a project collaboration tool called TeamBoard
 
-```mardown
-Developer: I want to build a ride-hailing app like Uber
-
-BA: Based on "ride-hailing app", here are typical Rider features:
+BA: Based on your description, here are typical User Management features:
     1. Registration/Login
-    2. Book a ride
-    3. Live tracking
-    ...
-    7. All of the above
-    8. Other
+    2. Profile management
+    3. Password reset
+    4. All of the above
+    
+Developer: 4
 
-Developer: 7
-
-BA: Here are typical Driver features:
-    ...
-
-[Generates CLAUDE.md with all requirements]
+[Generates CLAUDE.md]
 ```
 
 **Step 2: Solution Architect**
-
-```mardown
+```
 Architect: Reviewing CLAUDE.md...
 
-Platforms identified:
-- Backend API (Node.js + Express)
-- Rider App (React Native)
-- Driver App (React Native)
-- Admin Dashboard (React)
+Recommended tech stack:
+- Backend: Node.js + Express + TypeScript
+- Frontend: React + TypeScript + Vite
+- Database: PostgreSQL
 
-Architecture decisions documented...
-Risk assessment completed...
-
-[Updates CLAUDE.md with technical details]
+[Generates ARCHITECTURE.md]
 ```
 
 **Step 3: Project Manager**
+```
+PM: Setting up project...
 
-```mardown
-PM: Breaking down into tasks...
+Step 1/3: Additional Specifications ✅
+Step 2/3: Setup Team
+  • Researching Node.js Express best practices...
+  ✅ Created: .claude/agents/backend-developer.md
+  • Researching React TypeScript best practices...
+  ✅ Created: .claude/agents/frontend-developer.md
+  ✅ Created: .claude/agents/qa.md
+  ✅ Created: teamboard/backend/
+  ✅ Created: teamboard/frontend/
 
-[Generates]
-- TASKS-backend.md (47 tasks)
-- TASKS-rider-app.md (32 tasks)
-- TASKS-driver-app.md (28 tasks)
-- TASKS-admin.md (24 tasks)
+Step 3/3: Create Tasks
+  ✅ Created: tasks/TASKS-backend.md (12 tasks)
+  ✅ Created: tasks/TASKS-frontend.md (15 tasks)
 
-Dependencies mapped:
-- TASK-RIDER-015 depends on TASK-BACKEND-008
-- TASK-DRIVER-012 depends on TASK-BACKEND-008
+Project setup complete!
 ```
 
-**Step 4: Software Engineer**
+**Step 4: Development**
+```
+@backend-developer start
 
-```mardown
-Dev: Starting TASK-BACKEND-001: Project Setup
-
-[Implements task]
-[Marks complete in TASKS-backend.md]
-
-Dev: Starting TASK-BACKEND-002: Database Schema
-...
+backend-developer:
+  Starting TASK-BE-001: Setup project structure
+  ✅ Created package.json, tsconfig.json, folder structure
+  Status: ⬜ → ✅
+  
+  Next: TASK-BE-002
 ```
 
-**Step 5: Quality Assurance**
+**Step 5: QA**
+```
+@qa start
 
-```mardown
-QA: Testing Authentication Module
-
-[Creates authentication.md]
-
-ISSUE-001: OTP not received on some carriers
-- Status: Open
-- Severity: High
-...
-
-[Developer fixes, marks resolved]
-
-QA: ✅ FIXED - Verified
+qa:
+  Testing TASK-BE-003: User registration
+  ✅ TC-BE-003-1: Passed
+  ✅ TC-BE-003-2: Passed
+  ❌ TC-BE-003-3: Failed (weak password accepted)
+  
+  Logging issue ISS-BE-003-1...
 ```
 
 ---
@@ -345,43 +427,35 @@ QA: ✅ FIXED - Verified
 ## Installation & Usage
 
 ### Prerequisites
-
 - Claude AI with skills support
 - Access to Claude's computer use capabilities
 
 ### Installing Skills
 
-1. Download the `.skill` files from this repository
+1. Download the `.skill` files:
+   - `business-analyst.skill`
+   - `solution-architect.skill`
+   - `project-manager.skill`
 2. Upload to your Claude skills directory
 3. Skills will be available in your Claude conversations
 
 ### Using MAflow
 
 **Start a new project:**
-
-```mardown
+```
 You: I want to start a new project
 
 Claude: [Activates business-analyst skill]
 What's the name of your project?
 ```
 
-**Generate tasks:**
-
-```mardown
-You: Create tasks for this project
+**Setup project structure:**
+```
+You: Setup the project
 
 Claude: [Activates project-manager skill]
-[Reads CLAUDE.md, generates TASKS-*.md files]
-```
-
-**Develop a feature:**
-
-```mardown
-You: Start working on the authentication module
-
-Claude: [Activates software-engineer skill]
-[Checks dependencies, implements tasks]
+[Reads CLAUDE.md and ARCHITECTURE.md]
+[Creates sub-agents and task files]
 ```
 
 ---
@@ -389,37 +463,33 @@ Claude: [Activates software-engineer skill]
 ## Design Principles
 
 ### 1. Minimal Input, Maximum Output
-
 Skills infer as much as possible from context, reducing developer burden.
 
-### 2. Opinionated but Flexible
-
-Provides smart defaults while always allowing customization via "Other" options.
+### 2. Dynamic Best Practices
+Sub-agents research latest best practices online — no hardcoded patterns.
 
 ### 3. Document-Driven
-
 All decisions and progress tracked in markdown files — the source of truth.
 
-### 4. Dependency-Aware
+### 4. Clear Ownership
+- BA owns: CLAUDE.md (business requirements)
+- Architect owns: ARCHITECTURE.md (technical specs)
+- PM owns: Sub-agents, tasks
+- Developers own: Code
+- QA owns: Test execution, issue logging
 
-Tasks explicitly reference dependencies, preventing blocked work.
-
-### 5. Quality Built-In
-
-QA is integrated into the workflow, not an afterthought.
+### 5. Everything in One Place
+Tasks, test cases, and issues all live in the same file — no context switching.
 
 ---
 
 ## Roadmap
 
 - [x] Business Analyst skill
-- [ ] Solution Architect skill
-- [ ] Project Manager skill
-- [ ] Software Engineer skill
-- [ ] Quality Assurance skill
-- [ ] Slash commands for quick actions
-- [ ] Sub-agent orchestration
+- [x] Solution Architect skill
+- [x] Project Manager skill
 - [ ] Integration with external tools (GitHub, Jira)
+- [ ] Progress dashboard generation
 
 ---
 
