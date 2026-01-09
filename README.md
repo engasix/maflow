@@ -6,6 +6,12 @@ MAflow is an intelligent skill-based system that simulates a complete software d
 
 ---
 
+## Demo
+
+[![Watch the Demo](https://img.youtube.com/vi/b2vwoGPmodg/maxresdefault.jpg)](https://www.youtube.com/watch?v=b2vwoGPmodg)
+
+---
+
 ## About the Creator
 
 **Mohammad Asif** — Senior Software Engineer with 17+ years of experience designing, developing, and maintaining software systems across diverse technologies and domains. This project distills years of industry knowledge into AI-powered skills that help developers build production-ready software faster and smarter.
