@@ -8,7 +8,7 @@ MAflow is an intelligent skill-based system that simulates a complete software d
 
 ## Demo
 
-[![Watch the Demo](https://img.youtube.com/vi/b2vwoGPmodg/maxresdefault.jpg)](https://www.youtube.com/watch?v=b2vwoGPmodg)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/b2vwoGPmodg?si=1lpZYG03I0LHu_0p" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ---
 
